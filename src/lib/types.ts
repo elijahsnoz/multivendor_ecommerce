@@ -23,6 +23,8 @@ import {
   Size,
   User,
   Country as CountryPrisma,
+  Coupon,
+  Store,
 } from "@prisma/client";
 import countries from "@/data/countries.json";
 
@@ -184,6 +186,7 @@ export type VariantInfoType = {
 
 export type CartWithCartItemsType = Cart & {
   cartItems: CartItem[];
+  coupon: (Coupon & { store: Store }) | null;
 };
 
 export type UserShippingAddressType = ShippingAddress & {
