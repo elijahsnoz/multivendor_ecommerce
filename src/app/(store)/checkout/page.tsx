@@ -18,6 +18,11 @@ export default async function CheckoutPage() {
     },
     include: {
       cartItems: true,
+      coupon: {
+        include: {
+          store: true,
+        },
+      },
     },
   });
 
@@ -52,7 +57,7 @@ export default async function CheckoutPage() {
     <>
       <Header />
       <div className="bg-[#f4f4f4] min-h-[calc(100vh-65px)]">
-        <div className="max-w-conatiner mx-auto py-5 px-2">
+        <div className="max-w-container mx-auto py-5 px-2">
           <CheckoutContainer
             cart={cart}
             countries={countries}
