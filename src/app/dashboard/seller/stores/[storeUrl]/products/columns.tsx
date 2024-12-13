@@ -58,18 +58,18 @@ export const columns: ColumnDef<StoreProductType>[] = [
           <div className="relative flex flex-wrap gap-2">
             {row.original.variants.map((variant) => (
               <div key={variant.id} className="flex flex-col gap-y-2 group">
-                <div className="relative cursor-pointer">
+                <div className="relative cursor-pointer p-2">
                   <Image
                     src={variant.images[0].url}
                     alt={`${variant.variantName} image`}
                     width={1000}
                     height={1000}
-                    className="min-w-72 max-w-72 h-80 rounded-sm object-cover shadow-2xl"
+                    className="max-w-72 h-72 rounded-md object-cover shadow-sm"
                   />
                   <Link
                     href={`/dashboard/seller/stores/${row.original.store.url}/products/${row.original.id}/variants/${variant.id}`}
                   >
-                    <div className="w-full h-full absolute top-0 left-0 bottom-0 right-0 z-0 rounded-sm bg-black/50 transition-all duration-150 hidden group-hover:block">
+                    <div className="w-[304px] h-full absolute top-0 left-0 bottom-0 right-0 z-0 rounded-sm bg-black/50 transition-all duration-150 hidden group-hover:block">
                       <FilePenLine className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white" />
                     </div>
                   </Link>
@@ -123,6 +123,14 @@ export const columns: ColumnDef<StoreProductType>[] = [
     header: "SubCategory",
     cell: ({ row }) => {
       return <span>{row.original.subCategory.name}</span>;
+    },
+  },
+  {
+    accessorKey: "offerTag",
+    header: "Offer",
+    cell: ({ row }) => {
+      const offerTag = row.original.offerTag;
+      return <span>{offerTag ? offerTag.name : "-"}</span>;
     },
   },
   {

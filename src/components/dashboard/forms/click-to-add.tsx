@@ -9,29 +9,34 @@ import { PaintBucket } from "lucide-react";
 
 // Color picker
 import { SketchPicker } from "react-color";
+import { cn } from "@/lib/utils";
 
 // Define the interface for each detail object
-export interface Detail {
-  [key: string]: string | number | undefined;
+export interface Detail<T = { [key: string]: string | number | undefined }> {
+  [key: string]: T[keyof T];
 }
 
 // Define props for the ClickToAddInputs component
-interface ClickToAddInputsProps {
-  details: Detail[]; // Array of detail objects
-  setDetails: React.Dispatch<React.SetStateAction<Detail[]>>; // Setter function for details
-  initialDetail?: Detail; // Optional initial detail object
+interface ClickToAddInputsProps<T extends Detail> {
+  details: T[]; // Array of detail objects
+  setDetails: React.Dispatch<React.SetStateAction<T[]>>; // Setter function for details
+  initialDetail?: T; // Optional initial detail object
   header?: string; // Header text for the component
   colorPicker?: boolean; // Is color picker needed
+  containerClassName?: string;
+  inputClassName?: string;
 }
 
 // ClickToAddInputs component definition
-const ClickToAddInputs: FC<ClickToAddInputsProps> = ({
+const ClickToAddInputs = <T extends Detail>({
   details,
   setDetails,
   header,
-  initialDetail = {}, // Default value for initialDetail is an empty object
+  initialDetail = {} as T, // Default value for initialDetail is an empty object
   colorPicker,
-}) => {
+  containerClassName,
+  inputClassName,
+}: ClickToAddInputsProps<T>) => {
   // State to manage toggling color picker
   const [colorPickerIndex, setColorPickerIndex] = useState<number | null>(null);
 
@@ -132,7 +137,10 @@ const ClickToAddInputs: FC<ClickToAddInputsProps> = ({
       {details.map((detail, index) => (
         <div key={index} className="flex items-center gap-x-4">
           {Object.keys(detail).map((property, propIndex) => (
-            <div key={propIndex} className="flex items-center gap-x-4">
+            <div
+              key={propIndex}
+              className={cn("flex items-center gap-x-4", containerClassName)}
+            >
               {/* Color picker toggle */}
               {property === "color" && colorPicker && (
                 <div className="flex gap-x-4">
@@ -164,7 +172,7 @@ const ClickToAddInputs: FC<ClickToAddInputsProps> = ({
 
               {/* Input field for each property */}
               <Input
-                className="w-28"
+                className={cn("w-28 placeholder:capitalize", inputClassName)}
                 type={typeof detail[property] === "number" ? "number" : "text"}
                 name={property}
                 placeholder={property}
