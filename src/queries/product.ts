@@ -636,6 +636,7 @@ export const getProducts = async (
       name: product.name,
       rating: product.rating,
       sales: product.sales,
+      numReviews: product.numReviews,
       variants,
       variantImages,
     };
