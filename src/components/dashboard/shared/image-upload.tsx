@@ -8,6 +8,7 @@ import Image from "next/image";
 import { CldUploadWidget } from "next-cloudinary";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface ImageUploadProps {
   disabled?: boolean;
@@ -16,6 +17,7 @@ interface ImageUploadProps {
   value: string[];
   type: "standard" | "profile" | "cover";
   dontShowPreview?: boolean;
+  error?: boolean;
 }
 
 const ImageUpload: FC<ImageUploadProps> = ({
@@ -25,8 +27,20 @@ const ImageUpload: FC<ImageUploadProps> = ({
   value,
   type,
   dontShowPreview,
+  error,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
+  const [isBouncing, setIsBouncing] = useState(false); // Add state for bounce
+
+  useEffect(() => {
+    if (error) {
+      setIsBouncing(true);
+      const timer = setTimeout(() => {
+        setIsBouncing(false); // Stop the bounce after 1 and half second
+      }, 1500);
+      return () => clearTimeout(timer); // Clean up timer if the component unmounts or error changes
+    }
+  }, [error]);
 
   useEffect(() => {
     setIsMounted(true);
@@ -42,7 +56,15 @@ const ImageUpload: FC<ImageUploadProps> = ({
 
   if (type === "profile") {
     return (
-      <div className="relative  rounded-full w-52 h-52  bg-gray-200 border-2 border-white shadow-2xl overflow-visible">
+      <div
+        className={cn(
+          "relative  rounded-full w-52 h-52  bg-gray-200 border-2 border-white shadow-2xl overflow-visible",
+          {
+            "bg-red-100": error,
+            "animate-pulse": isBouncing,
+          }
+        )}
+      >
         {value.length > 0 && (
           <Image
             src={value[0]}
@@ -84,7 +106,13 @@ const ImageUpload: FC<ImageUploadProps> = ({
   } else if (type === "cover") {
     return (
       <div
-        className="relative w-full bg-gray-100 rounded-lg bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400 overflow-hidden"
+        className={cn(
+          "relative w-full bg-gray-100 rounded-lg bg-gradient-to-b from-gray-100 via-gray-100 to-gray-400 overflow-hidden",
+          {
+            "from-red-100 to-red-200 ": error,
+            "animate-bounce": isBouncing,
+          }
+        )}
         style={{ height: "348px" }}
       >
         {value.length > 0 && (
