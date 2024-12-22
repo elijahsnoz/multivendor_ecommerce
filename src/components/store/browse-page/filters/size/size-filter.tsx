@@ -6,9 +6,15 @@ import { FiltersQueryType } from "@/lib/types";
 import { getFilteredSizes } from "@/queries/size";
 import SizeLink from "./size-link";
 
-export default function SizeFilter({ queries }: { queries: FiltersQueryType }) {
+export default function SizeFilter({
+  queries,
+  storeUrl,
+}: {
+  queries: FiltersQueryType;
+  storeUrl?: string;
+}) {
   const { category, subCategory, offer, search } = queries;
-  const [show, setShow] = useState<boolean>(false);
+  const [show, setShow] = useState<boolean>(true);
   const [sizes, setSizes] = useState<{ size: string }[]>([]);
   const [total, setTotal] = useState<number>(10);
   const [take, setTake] = useState<number>(10);
@@ -19,7 +25,7 @@ export default function SizeFilter({ queries }: { queries: FiltersQueryType }) {
 
   const handleGetSizes = async () => {
     const sizes = await getFilteredSizes(
-      { category, offer, subCategory },
+      { category, offer, subCategory, storeUrl },
       take
     );
     setSizes(sizes.sizes);

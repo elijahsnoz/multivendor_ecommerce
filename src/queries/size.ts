@@ -12,10 +12,27 @@ export const getFilteredSizes = async (
     category?: string;
     subCategory?: string;
     offer?: string;
+    storeUrl?: string;
   },
   take = 10
 ) => {
-  const { category, subCategory, offer } = filters;
+  const { category, subCategory, offer, storeUrl } = filters;
+
+  let storeId: string | undefined;
+
+  if (storeUrl) {
+    // Retrieve the storeId based on the storeUrl
+    const store = await db.store.findUnique({
+      where: { url: storeUrl },
+    });
+
+    // If no store is found, return an empty array or handle as needed
+    if (!store) {
+      return { sizes: [], count: 0 };
+    }
+
+    storeId = store.id;
+  }
 
   // Construct the query dynamically based on the available filters
   const sizes = await db.size.findMany({
@@ -26,6 +43,7 @@ export const getFilteredSizes = async (
             category ? { category: { url: category } } : {},
             subCategory ? { subCategory: { url: subCategory } } : {},
             offer ? { category: { url: offer } } : {},
+            storeId ? { store: { id: storeId } } : {},
           ],
         },
       },
