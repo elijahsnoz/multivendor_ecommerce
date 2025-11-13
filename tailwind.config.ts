@@ -66,6 +66,23 @@ const config = {
           primary: "#191919",
           secondary: "#757575",
         },
+        // Futuristic neon colors
+        neon: {
+          cyan: "#00F0FF",
+          blue: "#0066FF",
+          purple: "#9D00FF",
+          pink: "#FF00E5",
+          green: "#00FF94",
+          yellow: "#FFE500",
+        },
+        cyber: {
+          dark: "#0A0E27",
+          darker: "#050814",
+          slate: "#1E293B",
+          purple: "#6C2BD9",
+          cyan: "#22D3EE",
+          pink: "#F472B6",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -81,13 +98,44 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "glow-pulse": {
+          "0%, 100%": { opacity: "1", filter: "brightness(1)" },
+          "50%": { opacity: "0.8", filter: "brightness(1.2)" },
+        },
+        "float": {
+          "0%, 100%": { transform: "translateY(0px)" },
+          "50%": { transform: "translateY(-10px)" },
+        },
+        "slide-in": {
+          "0%": { transform: "translateX(-100%)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+        "shimmer": {
+          "0%": { backgroundPosition: "-1000px 0" },
+          "100%": { backgroundPosition: "1000px 0" },
+        },
+        "neon-glow": {
+          "0%, 100%": { boxShadow: "0 0 5px currentColor, 0 0 10px currentColor" },
+          "50%": { boxShadow: "0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "glow-pulse": "glow-pulse 2s ease-in-out infinite",
+        "float": "float 3s ease-in-out infinite",
+        "slide-in": "slide-in 0.5s ease-out",
+        "shimmer": "shimmer 2s linear infinite",
+        "neon-glow": "neon-glow 1.5s ease-in-out infinite",
       },
       backgroundImage: {
         home: "url(/public/assets/images/home-wallpaper.webp)",
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic": "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "cyber-grid": "linear-gradient(rgba(6, 182, 212, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(6, 182, 212, 0.1) 1px, transparent 1px)",
+      },
+      backgroundSize: {
+        "grid": "50px 50px",
       },
       transitionTimingFunction: {
         "bezier-1": "cubic-bezier(.645,.045,.355,1)",
